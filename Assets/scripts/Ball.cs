@@ -45,7 +45,7 @@ public class Ball : MonoBehaviour {
 		started = false;
 		renderer.material.color = Color.white;
 
-		transform.position = new Vector3(-5f, 5f, 2.5f);
+		transform.position = new Vector3(-5f, 3f, 2.5f);
 		rigidbody.angularVelocity = Vector3.zero;
 		rigidbody.velocity = Vector3.zero;
 		rigidbody.rotation = Quaternion.identity;

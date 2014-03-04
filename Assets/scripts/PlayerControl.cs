@@ -6,6 +6,7 @@ public class PlayerControl : MonoBehaviour {
 	float ROTATION_RESOLUTION = 30f;
 
 	public GameObject field;
+	public Collider[] fields;
 	public GameObject[] targets;
 
 	public Transform ball;
@@ -58,13 +59,18 @@ public class PlayerControl : MonoBehaviour {
 
 	}
 
-	void OnCollisionEnter(Collision collision) {
-		if (collision.collider != ball.collider && collision.collider != field.collider) {
-			renderer.material.color = Color.red;
+	bool IsField(Collider collider) {
+		foreach (Collider field in fields) {
+			if (field == collider) {
+				return true;
+			}
 		}
+		return false;
+	}
 
-		if (collision.collider == ball.collider) {
-			ball.rigidbody.AddForce(1 * Vector3.up, ForceMode.VelocityChange);
+	void OnCollisionEnter(Collision collision) {
+		if (IsField(collision.collider) && collision.collider != field.collider) {
+			renderer.material.color = Color.red;
 		}
 	}
 }
