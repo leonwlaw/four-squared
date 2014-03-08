@@ -1,0 +1,46 @@
+<?xml version="1.0" standalone="no" ?>
+<!DOCTYPE project PUBLIC "-//audacityproject-1.3.0//DTD//EN" "http://audacity.sourceforge.net/xml/audacityproject-1.3.0.dtd" >
+<project xmlns="http://audacity.sourceforge.net/xml/" projname="Watermelon Thump Final_data" version="1.3.0" audacityversion="2.0.5" sel0="90.8531736962" sel1="91.0847383221" vpos="0" h="90.8299537416" zoom="86.1328125000" rate="44100.0">
+	<tags>
+		<tag name="ARTIST" value="navajopa31"/>
+		<tag name="TITLE" value="WATERMELON THUMPING COMPARING THE SOUND NOTE: READ DESCRIPTION"/>
+		<tag name="ALBUM" value="ClipConverter.cc"/>
+		<tag name="COMMENTS" value="Converted with ClipConverter.cc"/>
+	</tags>
+	<wavetrack name="Audio Track" channel="0" linked="1" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="44100" gain="1.0" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="10212">
+				<waveblock start="0">
+					<simpleblockfile filename="e000032d.au" len="10212" min="-0.486333" max="0.422355" rms="0.017452"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+		<waveclip offset="90.85317370">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="10212">
+				<waveblock start="0">
+					<simpleblockfile filename="e000032d.au" len="10212" min="-0.486333" max="0.422355" rms="0.017452"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="Audio Track" channel="1" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="44100" gain="1.0" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="10212">
+				<waveblock start="0">
+					<simpleblockfile filename="e00004a9.au" len="10212" min="-0.48692" max="0.421522" rms="0.016933"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+		<waveclip offset="90.85317370">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="10212">
+				<waveblock start="0">
+					<simpleblockfile filename="e00004a9.au" len="10212" min="-0.48692" max="0.421522" rms="0.016933"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+</project>
