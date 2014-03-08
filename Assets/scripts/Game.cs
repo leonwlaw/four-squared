@@ -7,6 +7,7 @@ public class Game : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+
 		ball.GetComponent<Ball>().Initialize();
 
 		foreach (GameObject player in players) {

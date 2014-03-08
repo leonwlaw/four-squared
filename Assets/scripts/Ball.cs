@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+
 public class Ball : MonoBehaviour {
 
 	Vector3 initialPosition = new Vector3(-5f, 3f, 2.5f);
+
+	public static int gameMode = 1;
 
 	bool started = false;
 	public Collider[] fields;
@@ -31,6 +34,39 @@ public class Ball : MonoBehaviour {
 
 	void OnCollisionEnter(Collision collision) {
 		if (started) {
+			if (gameMode == 1){
+				//Player 1 Hit the Ball to Change to a Pear
+				if(collision.gameObject.name == "Player 1"){
+					//Get the Pear
+					GameObject ballPear = GameObject.Find("Pear");
+
+					//Swap Mesh
+					Mesh initialMesh;
+					Mesh swapMesh;
+					initialMesh = gameObject.GetComponent<MeshFilter>().mesh;
+					swapMesh = ballPear.GetComponent<MeshFilter>().mesh;
+					gameObject.GetComponent<MeshFilter>().mesh = swapMesh;
+					//Swap Texture
+					Texture swapTexture;
+					swapTexture = ballPear.renderer.material.mainTexture;
+					gameObject.renderer.material.mainTexture = swapTexture;
+
+
+				}
+				//Player 2 Hit the Ball to Change to an Apple
+				else if (collision.gameObject.name == "Player 2"){
+				
+				}
+				//Player 3 Hit the Ball to Change to an Watermelon
+				else if (collision.gameObject.name == "Player 3"){
+				
+				}
+				//Player 4 Hit the Ball to Change to a bunch of Grapes
+				else if (collision.gameObject.name == "Player 4"){
+				
+				}
+			}
+
 			if (IsColliderField(collision.collider)) {
 				if (renderer.material.color != collision.collider.renderer.material.color) {
 					renderer.material.color = collision.collider.renderer.material.color;
@@ -59,7 +95,10 @@ public class Ball : MonoBehaviour {
 					}
 				}
 			}
-		} else {
+
+		} 
+
+		else {
 			started = IsColliderPlayer(collision.collider);
 		}
 	}
@@ -81,6 +120,8 @@ public class Ball : MonoBehaviour {
 		}
 		return true;
 	}
+		
+
 
 	public void Initialize() {
 		// Remove all splats from the screen
