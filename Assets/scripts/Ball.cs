@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 public class Ball : MonoBehaviour {
 
+	Vector3 initialPosition = new Vector3(-5f, 3f, 2.5f);
+
 	bool started = false;
 	public Collider[] fields;
 	public GameObject splat;
@@ -17,7 +19,14 @@ public class Ball : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-
+		// Slight dampening if the ball bounces too high due to floating
+		// point arithmetic rounding errors.
+		if (transform.position.y > initialPosition.y) {
+			rigidbody.velocity = new Vector3(
+				rigidbody.velocity.x,
+				rigidbody.velocity.y * (1 - 0.8f * Time.deltaTime),
+				rigidbody.velocity.z);
+		}
 	}
 
 	void OnCollisionEnter(Collision collision) {
@@ -84,7 +93,7 @@ public class Ball : MonoBehaviour {
 		started = false;
 		renderer.material.color = Color.white;
 
-		transform.position = new Vector3(-5f, 3f, 2.5f);
+		transform.position = initialPosition;
 		rigidbody.angularVelocity = Vector3.zero;
 		rigidbody.velocity = Vector3.zero;
 		rigidbody.rotation = Quaternion.identity;
