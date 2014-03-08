@@ -1,10 +1,14 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class Ball : MonoBehaviour {
 
 	bool started = false;
 	public Collider[] fields;
+	public GameObject splat;
+	public Collider lastBumpedCollider;
+
+	List<GameObject> generatedSplats = new List<GameObject>();
 
 	// Use this for initialization
 	void Start () {
@@ -18,18 +22,44 @@ public class Ball : MonoBehaviour {
 
 	void OnCollisionEnter(Collision collision) {
 		if (started) {
-			foreach (Collider field in fields) {
-				if (field == collision.collider) {
-					if (renderer.material.color != collision.collider.renderer.material.color) {
-						renderer.material.color = collision.collider.renderer.material.color;
-					} else {
-						renderer.material.color = Color.red;
+			if (IsColliderField(collision.collider)) {
+				if (renderer.material.color != collision.collider.renderer.material.color) {
+					renderer.material.color = collision.collider.renderer.material.color;
+				} else {
+					renderer.material.color = Color.red;
+				}
+			} else {
+				// This is a player.
+
+				// Since multiple collisions can occur to the same
+				// object multiple times in quick succession, make sure
+				// we don't generate too many splats.
+				if (lastBumpedCollider != collision.collider) {
+					foreach (ContactPoint contact in collision.contacts) {
+						// Let's figure out where the collision took
+						// place and generate a splat.
+						RaycastHit surfaceHit;
+						Physics.Raycast(contact.point, Vector3.down, out surfaceHit, 100);
+
+						Vector3 splatPosition = new Vector3(surfaceHit.point.x, 0, surfaceHit.point.z);
+						generatedSplats.Add((GameObject)Instantiate(splat, splatPosition, Quaternion.identity));
+
+						lastBumpedCollider = collision.collider;
 					}
 				}
 			}
 		} else {
 			started = IsColliderPlayer(collision.collider);
 		}
+	}
+
+	bool IsColliderField(Collider collider) {
+		foreach (Collider field in fields) {
+			if (field == collider) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	bool IsColliderPlayer(Collider collider) {
@@ -42,6 +72,12 @@ public class Ball : MonoBehaviour {
 	}
 
 	public void Initialize() {
+		// Remove all splats from the screen
+		foreach (GameObject splat in generatedSplats) {
+			Destroy(splat);
+		}
+		generatedSplats.Clear();
+
 		started = false;
 		renderer.material.color = Color.white;
 
