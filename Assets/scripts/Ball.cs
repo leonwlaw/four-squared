@@ -42,7 +42,9 @@ public class Ball : MonoBehaviour {
 						Physics.Raycast(contact.point, Vector3.down, out surfaceHit, 100);
 
 						Vector3 splatPosition = new Vector3(surfaceHit.point.x, 0, surfaceHit.point.z);
-						generatedSplats.Add((GameObject)Instantiate(splat, splatPosition, Quaternion.identity));
+						GameObject generatedSplat = (GameObject)Instantiate(splat, splatPosition, Quaternion.identity);
+						generatedSplat.GetComponent<Splat>().fall = true;
+						generatedSplats.Add(generatedSplat);
 
 						lastBumpedCollider = collision.collider;
 					}
@@ -77,6 +79,7 @@ public class Ball : MonoBehaviour {
 			Destroy(splat);
 		}
 		generatedSplats.Clear();
+		lastBumpedCollider = null;
 
 		started = false;
 		renderer.material.color = Color.white;
