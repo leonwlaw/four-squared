@@ -69,19 +69,19 @@ public class Ball : MonoBehaviour {
 
 
 				}
-				//Player 2 Hit the Ball to Change to a bunch of Grapes
+				//Player 2 Hit the Ball to Change to a Strawberry
 				else if (collision.gameObject.name == "Player 2"){
-					GameObject ballGrapes = GameObject.Find("Grapes");
+					GameObject ballStrawberry = GameObject.Find("Strawberry");
 					//Swap Mesh
 					Mesh initialMesh;
 					Mesh swapMesh;
 					initialMesh = gameObject.GetComponent<MeshFilter>().mesh;
-					swapMesh = ballGrapes.GetComponent<MeshFilter>().mesh;
+					swapMesh = ballStrawberry.GetComponent<MeshFilter>().mesh;
 					gameObject.GetComponent<MeshFilter>().mesh = swapMesh;
 					//Swap Texture
 					Texture swapTexture;
-					gameObject.transform.localScale = new Vector3(1,1,1);
-					swapTexture = ballGrapes.renderer.material.mainTexture;
+					gameObject.transform.localScale = new Vector3(4,4,4);
+					swapTexture = ballStrawberry.renderer.material.mainTexture;
 					gameObject.renderer.material.mainTexture = swapTexture;
 				}
 				//Player 3 Hit the Ball to Change to an Apple
