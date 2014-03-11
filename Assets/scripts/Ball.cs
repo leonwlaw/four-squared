@@ -33,6 +33,21 @@ public class Ball : MonoBehaviour {
 	}
 
 	void OnCollisionEnter(Collision collision) {
+		//Player 1 Initiated the Hit Change the Ball to a Pear
+		if (gameMode == 1 && !started) {
+			//Get the Pear
+			GameObject ballPear = GameObject.Find("Pear");	
+			//Swap Mesh
+			Mesh initialMesh;
+			Mesh swapMesh;
+			initialMesh = gameObject.GetComponent<MeshFilter>().mesh;
+			swapMesh = ballPear.GetComponent<MeshFilter>().mesh;
+			gameObject.GetComponent<MeshFilter>().mesh = swapMesh;
+			//Swap Texture
+			Texture swapTexture;
+			swapTexture = ballPear.renderer.material.mainTexture;
+			gameObject.renderer.material.mainTexture = swapTexture;
+		}
 		if (started) {
 			if (gameMode == 1){
 				//Player 1 Hit the Ball to Change to a Pear
@@ -48,22 +63,57 @@ public class Ball : MonoBehaviour {
 					gameObject.GetComponent<MeshFilter>().mesh = swapMesh;
 					//Swap Texture
 					Texture swapTexture;
+					gameObject.transform.localScale = new Vector3(1,1,1);
 					swapTexture = ballPear.renderer.material.mainTexture;
 					gameObject.renderer.material.mainTexture = swapTexture;
 
 
 				}
-				//Player 2 Hit the Ball to Change to an Apple
+				//Player 2 Hit the Ball to Change to a bunch of Grapes
 				else if (collision.gameObject.name == "Player 2"){
-				
+					GameObject ballGrapes = GameObject.Find("Grapes");
+					//Swap Mesh
+					Mesh initialMesh;
+					Mesh swapMesh;
+					initialMesh = gameObject.GetComponent<MeshFilter>().mesh;
+					swapMesh = ballGrapes.GetComponent<MeshFilter>().mesh;
+					gameObject.GetComponent<MeshFilter>().mesh = swapMesh;
+					//Swap Texture
+					Texture swapTexture;
+					gameObject.transform.localScale = new Vector3(1,1,1);
+					swapTexture = ballGrapes.renderer.material.mainTexture;
+					gameObject.renderer.material.mainTexture = swapTexture;
 				}
-				//Player 3 Hit the Ball to Change to an Watermelon
+				//Player 3 Hit the Ball to Change to an Apple
 				else if (collision.gameObject.name == "Player 3"){
-				
+					GameObject ballApple = GameObject.Find("Apple");
+					//Swap Mesh
+					Mesh initialMesh;
+					Mesh swapMesh;
+					initialMesh = gameObject.GetComponent<MeshFilter>().mesh;
+					swapMesh = ballApple.GetComponent<MeshFilter>().mesh;
+					gameObject.GetComponent<MeshFilter>().mesh = swapMesh;
+					//Swap Texture
+					Texture swapTexture;
+					gameObject.transform.localScale = new Vector3(3,3,3);
+					swapTexture = ballApple.renderer.material.mainTexture;
+					gameObject.renderer.material.mainTexture = swapTexture;
 				}
-				//Player 4 Hit the Ball to Change to a bunch of Grapes
+				//Player 4 Hit the Ball to Change to a Watermelon
 				else if (collision.gameObject.name == "Player 4"){
-				
+					GameObject ballWatermelon = GameObject.Find("Watermelon");
+					//Swap Mesh
+					Mesh initialMesh;
+					Mesh swapMesh;
+					initialMesh = gameObject.GetComponent<MeshFilter>().mesh;
+					swapMesh = ballWatermelon.GetComponent<MeshFilter>().mesh;
+					gameObject.GetComponent<MeshFilter>().mesh = swapMesh;
+					//Swap Texture
+					Texture swapTexture;
+					gameObject.transform.localScale = new Vector3(0.5f,0.5f,0.5f);
+
+					swapTexture = ballWatermelon.renderer.material.mainTexture;
+					gameObject.renderer.material.mainTexture = swapTexture;
 				}
 			}
 

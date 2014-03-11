@@ -118,6 +118,47 @@ ModelImporter:
     100224: polySurface8
     100226: polySurface9
     100228: transform37
+    100230: polySurface44
+    100232: transform38
+    100234: transform39
+    100236: transform40
+    100238: transform41
+    100240: transform42
+    100242: transform43
+    100244: transform44
+    100246: transform45
+    100248: transform46
+    100250: transform47
+    100252: transform48
+    100254: transform49
+    100256: transform50
+    100258: transform51
+    100260: transform52
+    100262: transform53
+    100264: transform54
+    100266: transform55
+    100268: transform56
+    100270: transform57
+    100272: transform58
+    100274: transform59
+    100276: transform60
+    100278: transform61
+    100280: transform62
+    100282: transform63
+    100284: transform64
+    100286: transform65
+    100288: transform66
+    100290: transform67
+    100292: transform68
+    100294: transform69
+    100296: transform70
+    100298: transform71
+    100300: transform72
+    100302: transform73
+    100304: transform74
+    100306: transform75
+    100308: transform76
+    100310: transform77
     400000: //RootNode
     400002: polySurface1
     400004: polySurface2
@@ -233,6 +274,47 @@ ModelImporter:
     400224: polySurface8
     400226: polySurface9
     400228: transform37
+    400230: polySurface44
+    400232: transform38
+    400234: transform39
+    400236: transform40
+    400238: transform41
+    400240: transform42
+    400242: transform43
+    400244: transform44
+    400246: transform45
+    400248: transform46
+    400250: transform47
+    400252: transform48
+    400254: transform49
+    400256: transform50
+    400258: transform51
+    400260: transform52
+    400262: transform53
+    400264: transform54
+    400266: transform55
+    400268: transform56
+    400270: transform57
+    400272: transform58
+    400274: transform59
+    400276: transform60
+    400278: transform61
+    400280: transform62
+    400282: transform63
+    400284: transform64
+    400286: transform65
+    400288: transform66
+    400290: transform67
+    400292: transform68
+    400294: transform69
+    400296: transform70
+    400298: transform71
+    400300: transform72
+    400302: transform73
+    400304: transform74
+    400306: transform75
+    400308: transform76
+    400310: transform77
     2300000: polySurface3
     2300002: polySurface10
     2300004: polySurface11
@@ -274,6 +356,7 @@ ModelImporter:
     2300076: polySurface7
     2300078: polySurface8
     2300080: polySurface9
+    2300082: polySurface44
     3300000: polySurface3
     3300002: polySurface10
     3300004: polySurface11
@@ -315,6 +398,7 @@ ModelImporter:
     3300076: polySurface7
     3300078: polySurface8
     3300080: polySurface9
+    3300082: polySurface44
     4300000: polySurface3
     4300002: polySurface4
     4300004: polySurface5
@@ -356,6 +440,7 @@ ModelImporter:
     4300076: polySurface41
     4300078: polySurface42
     4300080: polySurface43
+    4300082: polySurface44
     7400000: Take 001
     9500000: //RootNode
   materials:
