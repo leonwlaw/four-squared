@@ -3,7 +3,10 @@ using System.Collections;
 
 public class PlayerControl : MonoBehaviour {
 	float speed = 150f;
+	float jumpPower = 15f;
 	float ROTATION_RESOLUTION = 30f;
+
+	const int floorsLayer = 1 << 8;
 
 	public GameObject field;
 	public Collider[] fields;
@@ -21,9 +24,6 @@ public class PlayerControl : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		// Follow the ball's bounce
-		transform.position = new Vector3(transform.position.x, ball.transform.position.y, transform.position.z);
-
 		Vector3 forceTargetDirection = new Vector3();
 
 		if (Input.GetKey(inputs[0])) {
@@ -46,12 +46,13 @@ public class PlayerControl : MonoBehaviour {
 			transform.Rotate(ROTATION_RESOLUTION * Vector3.up);
 		}
 
-		if (Input.GetKeyDown(inputs[5])) {
-			transform.Rotate(-ROTATION_RESOLUTION * Vector3.up);
-		}
-
 		forceTargetDirection = Vector3.Normalize(forceTargetDirection);
 		rigidbody.AddForce(speed * Time.deltaTime * forceTargetDirection, ForceMode.VelocityChange);
+
+		if (Input.GetKeyDown(inputs[5]) &&
+				Physics.Raycast(transform.position, Vector3.down, transform.localScale.y * 0.5f, floorsLayer)) {
+			rigidbody.AddForce(jumpPower * Vector3.up, ForceMode.Impulse);
+		}
 	}
 
 	void FixedUpdate() {
@@ -66,11 +67,5 @@ public class PlayerControl : MonoBehaviour {
 			}
 		}
 		return false;
-	}
-
-	void OnCollisionEnter(Collision collision) {
-		if (IsField(collision.collider) && collision.collider != field.collider) {
-			renderer.material.color = Color.red;
-		}
 	}
 }

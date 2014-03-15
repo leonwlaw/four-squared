@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Score : MonoBehaviour {
 	const float colorChangeFactor = 0.2f;
-	const float minimumColorDifference = 0.001f;
+	const float minimumColorDifference = 0.0001f;
 	const int floorsLayer = 1 << 8;
 
 	// Use this for initialization
