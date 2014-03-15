@@ -42,9 +42,12 @@ public class PlayerControl : MonoBehaviour {
 			forceTargetDirection += Vector3.right;
 		}
 
-		if (Input.GetKeyDown(inputs[4])) {
-			transform.Rotate(ROTATION_RESOLUTION * Vector3.up);
-		}
+		// if (Input.GetKeyDown(inputs[4])) {
+		// 	transform.Rotate(ROTATION_RESOLUTION * Vector3.up);
+		// }
+
+		float angle = Vector3.Angle(Vector3.right, forceTargetDirection);
+		transform.rotation = Quaternion.Euler(0, angle, 0);
 
 		forceTargetDirection = Vector3.Normalize(forceTargetDirection);
 		rigidbody.AddForce(speed * Time.deltaTime * forceTargetDirection, ForceMode.VelocityChange);
