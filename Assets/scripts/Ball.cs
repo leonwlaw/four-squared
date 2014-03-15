@@ -6,9 +6,6 @@ public class Ball : MonoBehaviour {
 
 	Vector3 initialPosition = new Vector3(-5f, 3f, 2.5f);
 
-	public static int gameMode = 1;
-
-	bool started = false;
 	public Collider[] fields;
 	public GameObject splat;
 	public Collider lastBumpedCollider;
@@ -30,11 +27,12 @@ public class Ball : MonoBehaviour {
 				rigidbody.velocity.y * (1 - 0.8f * Time.deltaTime),
 				rigidbody.velocity.z);
 		}
+
 	}
 
 	void OnCollisionEnter(Collision collision) {
 		//Player 1 Initiated the Hit Change the Ball to a Pear
-		if (gameMode == 1 && !started) {
+		if (Game.mode == Game.GameMode.FruitChange && !(Game.started)) {
 			//Get the Pear
 			GameObject ballPear = GameObject.Find("Pear");	
 			//Swap Mesh
@@ -48,8 +46,8 @@ public class Ball : MonoBehaviour {
 			swapTexture = ballPear.renderer.material.mainTexture;
 			gameObject.renderer.material.mainTexture = swapTexture;
 		}
-		if (started) {
-			if (gameMode == 1){
+		if (!(Game.started)) {
+			if (Game.mode == Game.GameMode.FruitChange){
 				//Player 1 Hit the Ball to Change to a Pear
 				if(collision.gameObject.name == "Player 1"){
 					//Get the Pear
@@ -117,31 +115,34 @@ public class Ball : MonoBehaviour {
 				}
 			}
 
-			if (IsColliderPlayer(collision.collider)) {
-				// Since multiple collisions can occur to the same
-				// object multiple times in quick succession, make sure
-				// we don't generate too many splats.
-				if (lastBumpedCollider != collision.collider) {
-					foreach (ContactPoint contact in collision.contacts) {
-						// Let's figure out where the collision took
-						// place and generate a splat.
-						RaycastHit surfaceHit;
-						Physics.Raycast(contact.point, Vector3.down, out surfaceHit, 100);
+			if (Game.mode == Game.GameMode.Splats) {
+				if (IsColliderPlayer(collision.collider)) {
+					// Since multiple collisions can occur to the same
+					// object multiple times in quick succession, make sure
+					// we don't generate too many splats.
+					if (lastBumpedCollider != collision.collider) {
+						foreach (ContactPoint contact in collision.contacts) {
+							// Let's figure out where the collision took
+							// place and generate a splat.
+							RaycastHit surfaceHit;
+							Physics.Raycast(contact.point, Vector3.down, out surfaceHit, 100);
+								
+							Vector3 splatPosition = new Vector3(surfaceHit.point.x, 0, surfaceHit.point.z);
+							GameObject generatedSplat = (GameObject)Instantiate(splat, splatPosition, Quaternion.identity);
+							generatedSplat.GetComponent<Splat>().active = true;
+							generatedSplats.Add(generatedSplat);
 
-						Vector3 splatPosition = new Vector3(surfaceHit.point.x, 0, surfaceHit.point.z);
-						GameObject generatedSplat = (GameObject)Instantiate(splat, splatPosition, Quaternion.identity);
-						generatedSplat.GetComponent<Splat>().active = true;
-						generatedSplats.Add(generatedSplat);
-
-						lastBumpedCollider = collision.collider;
+							lastBumpedCollider = collision.collider;
+						}
 					}
 				}
+					
+			} 
+				
+			else {
+				Game.started = IsColliderPlayer(collision.collider);
+				Debug.Log (Game.started);
 			}
-
-		} 
-
-		else {
-			started = IsColliderPlayer(collision.collider);
 		}
 	}
 
@@ -173,7 +174,7 @@ public class Ball : MonoBehaviour {
 		generatedSplats.Clear();
 		lastBumpedCollider = null;
 
-		started = false;
+		Game.started = false;
 		renderer.material.color = Color.white;
 
 		transform.position = initialPosition;
