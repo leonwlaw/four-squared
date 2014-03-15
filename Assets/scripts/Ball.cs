@@ -83,8 +83,8 @@ public class Ball : MonoBehaviour {
 	}
 
 	void OnCollisionEnter(Collision collision) {
-
-		SplatSound ();	
+		// NEED AN IF STATMENT ON GAME MODE
+		SplatSound ();
 
 		//Player 1 Initiated the Hit Change the Ball to a Pear
 		if (Game.mode == Game.GameMode.FruitChange && !(Game.started)) {
@@ -200,7 +200,7 @@ public class Ball : MonoBehaviour {
 				
 			else {
 				Game.started = IsColliderPlayer(collision.collider);
-				Debug.Log (Game.started);
+
 			}
 		}
 	}
