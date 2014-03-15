@@ -3,16 +3,19 @@ using System.Collections;
 
 public class PlayerControl : MonoBehaviour {
 	float speed = 150f;
+	float jumpPower = 15f;
 	float ROTATION_RESOLUTION = 30f;
 
-	public GameObject field;
-	public Collider[] fields;
-	public GameObject[] targets;
+	const int floorsLayer = 1 << 8;
 
-	public Transform ball;
+	public GameObject field;
 
 	// Keyboard input for the character
-	public KeyCode[] inputs;
+	public KeyCode up;
+	public KeyCode down;
+	public KeyCode left;
+	public KeyCode right;
+	public KeyCode jump;
 
 	// Use this for initialization
 	void Start () {
@@ -21,56 +24,37 @@ public class PlayerControl : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		// Follow the ball's bounce
-		transform.position = new Vector3(transform.position.x, ball.transform.position.y, transform.position.z);
-
 		Vector3 forceTargetDirection = new Vector3();
 
-		if (Input.GetKey(inputs[0])) {
+		if (Input.GetKey(up)) {
 			forceTargetDirection += Vector3.forward;
 		}
 
-		if (Input.GetKey(inputs[1])) {
+		if (Input.GetKey(down)) {
 			forceTargetDirection -= Vector3.forward;
 		}
 
-		if (Input.GetKey(inputs[2])) {
+		if (Input.GetKey(left)) {
 			forceTargetDirection -= Vector3.right;
 		}
 
-		if (Input.GetKey(inputs[3])) {
+		if (Input.GetKey(right)) {
 			forceTargetDirection += Vector3.right;
 		}
 
-		if (Input.GetKeyDown(inputs[4])) {
-			transform.Rotate(ROTATION_RESOLUTION * Vector3.up);
-		}
+		// if (Input.GetKeyDown(inputs[4])) {
+		// 	transform.Rotate(ROTATION_RESOLUTION * Vector3.up);
+		// }
 
-		if (Input.GetKeyDown(inputs[5])) {
-			transform.Rotate(-ROTATION_RESOLUTION * Vector3.up);
-		}
+		float angle = Vector3.Angle(Vector3.right, forceTargetDirection);
+		transform.rotation = Quaternion.Euler(0, angle, 0);
 
 		forceTargetDirection = Vector3.Normalize(forceTargetDirection);
 		rigidbody.AddForce(speed * Time.deltaTime * forceTargetDirection, ForceMode.VelocityChange);
-	}
 
-	void FixedUpdate() {
-
-
-	}
-
-	bool IsField(Collider collider) {
-		foreach (Collider field in fields) {
-			if (field == collider) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	void OnCollisionEnter(Collision collision) {
-		if (IsField(collision.collider) && collision.collider != field.collider) {
-			renderer.material.color = Color.red;
+		if (Input.GetKeyDown(jump) &&
+				Physics.Raycast(transform.position, Vector3.down, transform.localScale.y * 0.5f, floorsLayer)) {
+			rigidbody.AddForce(jumpPower * Vector3.up, ForceMode.Impulse);
 		}
 	}
 }
