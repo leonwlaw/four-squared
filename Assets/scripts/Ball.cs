@@ -4,6 +4,14 @@ using System.Collections.Generic;
 
 public class Ball : MonoBehaviour {
 
+	public static AudioClip sound1;
+	public static AudioClip sound2;
+	public static AudioClip sound3;
+	public static AudioClip sound4;
+	public static AudioClip sound5;
+
+	public AudioClip[] gameSounds;
+
 	Vector3 initialPosition = new Vector3(-5f, 3f, 2.5f);
 
 	public Collider[] fields;
@@ -12,9 +20,53 @@ public class Ball : MonoBehaviour {
 
 	List<GameObject> generatedSplats = new List<GameObject>();
 
+	//Pear Audio
+	void PearSound(){
+		//Save Audio Just In Case
+		//AudioClip temp = gameObject.GetComponent<AudioSource> ().clip;
+		audio.clip = sound1;
+		audio.Play ();
+	}
+
+	void AppleSound(){
+		//Save Audio Just In Case
+		//AudioClip temp = gameObject.GetComponent<AudioSource> ().clip;
+		audio.clip = sound3;
+		audio.Play ();
+	}
+
+	void SplatSound(){
+		//Save Audio Just In Case
+		//AudioClip temp = gameObject.GetComponent<AudioSource> ().clip;
+		audio.clip = sound5;
+		audio.Play ();
+	}
+
+	void GrapeSound(){
+		audio.clip = sound2;
+		audio.Play ();
+	}
+
+	void WatermelonSound(){
+		//Save Audio Just In Case
+		//AudioClip temp = gameObject.GetComponent<AudioSource> ().clip;
+		audio.clip = sound4;
+		//Debug.Log (sound1.name.ToString ());
+		audio.Play ();
+	}
+
 	// Use this for initialization
 	void Start () {
 		Initialize();
+
+		sound1 = Resources.Load ("audio/Pear Thump", typeof(AudioClip)) as AudioClip;
+		sound2 = Resources.Load ("audio/Grape Bunch Thump", typeof(AudioClip)) as AudioClip;
+		sound3 = Resources.Load ("audio/Apple Thump", typeof(AudioClip)) as AudioClip;
+		sound4 = Resources.Load ("audio/Watermelon Thump", typeof(AudioClip)) as AudioClip;
+		sound5 = Resources.Load ("audio/Fruit Splat", typeof(AudioClip)) as AudioClip;
+
+		Debug.Log (sound1.name);		
+
 	}
 
 	// Update is called once per frame
@@ -31,8 +83,12 @@ public class Ball : MonoBehaviour {
 	}
 
 	void OnCollisionEnter(Collision collision) {
+
+		SplatSound ();	
+
 		//Player 1 Initiated the Hit Change the Ball to a Pear
 		if (Game.mode == Game.GameMode.FruitChange && !(Game.started)) {
+			PearSound();
 			//Get the Pear
 			GameObject ballPear = GameObject.Find("Pear");	
 			//Swap Mesh
@@ -52,7 +108,7 @@ public class Ball : MonoBehaviour {
 				if(collision.gameObject.name == "Player 1"){
 					//Get the Pear
 					GameObject ballPear = GameObject.Find("Pear");
-
+					PearSound();
 					//Swap Mesh
 					Mesh initialMesh;
 					Mesh swapMesh;
@@ -70,6 +126,7 @@ public class Ball : MonoBehaviour {
 				//Player 2 Hit the Ball to Change to a Strawberry
 				else if (collision.gameObject.name == "Player 2"){
 					GameObject ballGrapes = GameObject.Find("Grapes");
+					GrapeSound();
 					//Swap Mesh
 					Mesh initialMesh;
 					Mesh swapMesh;
@@ -85,6 +142,7 @@ public class Ball : MonoBehaviour {
 				//Player 3 Hit the Ball to Change to an Apple
 				else if (collision.gameObject.name == "Player 3"){
 					GameObject ballApple = GameObject.Find("Apple");
+					AppleSound();
 					//Swap Mesh
 					Mesh initialMesh;
 					Mesh swapMesh;
@@ -100,6 +158,7 @@ public class Ball : MonoBehaviour {
 				//Player 4 Hit the Ball to Change to a Watermelon
 				else if (collision.gameObject.name == "Player 4"){
 					GameObject ballWatermelon = GameObject.Find("Watermelon");
+					WatermelonSound();
 					//Swap Mesh
 					Mesh initialMesh;
 					Mesh swapMesh;
