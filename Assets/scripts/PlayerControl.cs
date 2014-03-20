@@ -2,6 +2,13 @@
 using System.Collections;
 
 public class PlayerControl : MonoBehaviour {
+
+	//Zone Restrictions
+	public float xLimit;
+	public float x2Limit;
+	public float zLimit;
+	public float z2Limit;
+
 	float speed = 150f;
 	float jumpPower = 15f;
 
@@ -23,6 +30,21 @@ public class PlayerControl : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+
+		/*
+		player 4: -10, 0, -10, 0
+		player 3: 0, 10,-10, 0
+		player 2: 0, 10, 0, 10
+		player 1: -10, 0, 0, 10
+		*/
+
+		Vector3 pos = transform.position;
+		pos.x = Mathf.Clamp(pos.x,xLimit,x2Limit);
+		pos.z = Mathf.Clamp (pos.z, zLimit, z2Limit);
+
+		transform.position = pos;
+
+
 		Vector3 forceTargetDirection = new Vector3();
 
 		if (Input.GetKey(up)) {
