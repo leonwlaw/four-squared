@@ -102,9 +102,9 @@ public class Ball : MonoBehaviour {
 			swapTexture = ballPear.renderer.material.mainTexture;
 			gameObject.renderer.material.mainTexture = swapTexture;
 		}
+
 		if (!(Game.started)) {
 			if (Game.mode == Game.GameMode.FruitChange){
-				//Player 1 Hit the Ball to Change to a Pear
 				if(collision.gameObject.name == "Player 1"){
 					//Get the Pear
 					GameObject ballPear = GameObject.Find("Pear");
@@ -117,13 +117,10 @@ public class Ball : MonoBehaviour {
 					gameObject.GetComponent<MeshFilter>().mesh = swapMesh;
 					//Swap Texture
 					Texture swapTexture;
-					gameObject.transform.localScale = new Vector3(1,1,1);
 					swapTexture = ballPear.renderer.material.mainTexture;
 					gameObject.renderer.material.mainTexture = swapTexture;
-
-
 				}
-				//Player 2 Hit the Ball to Change to a Strawberry
+				//Player 2 Hit the Ball to Change to a Grapes
 				else if (collision.gameObject.name == "Player 2"){
 					GameObject ballGrapes = GameObject.Find("Grapes");
 					GrapeSound();
@@ -135,7 +132,6 @@ public class Ball : MonoBehaviour {
 					gameObject.GetComponent<MeshFilter>().mesh = swapMesh;
 					//Swap Texture
 					Texture swapTexture;
-					gameObject.transform.localScale = new Vector3(.8f,.8f,.8f);
 					swapTexture = ballGrapes.renderer.material.mainTexture;
 					gameObject.renderer.material.mainTexture = swapTexture;
 				}
@@ -151,7 +147,6 @@ public class Ball : MonoBehaviour {
 					gameObject.GetComponent<MeshFilter>().mesh = swapMesh;
 					//Swap Texture
 					Texture swapTexture;
-					gameObject.transform.localScale = new Vector3(3,3,3);
 					swapTexture = ballApple.renderer.material.mainTexture;
 					gameObject.renderer.material.mainTexture = swapTexture;
 				}
@@ -167,8 +162,6 @@ public class Ball : MonoBehaviour {
 					gameObject.GetComponent<MeshFilter>().mesh = swapMesh;
 					//Swap Texture
 					Texture swapTexture;
-					gameObject.transform.localScale = new Vector3(0.5f,0.5f,0.5f);
-
 					swapTexture = ballWatermelon.renderer.material.mainTexture;
 					gameObject.renderer.material.mainTexture = swapTexture;
 				}
