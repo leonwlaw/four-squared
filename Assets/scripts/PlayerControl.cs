@@ -4,7 +4,6 @@ using System.Collections;
 public class PlayerControl : MonoBehaviour {
 	float speed = 150f;
 	float jumpPower = 15f;
-	float ROTATION_RESOLUTION = 30f;
 
 	const int floorsLayer = 1 << 8;
 

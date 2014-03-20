@@ -38,9 +38,7 @@ public class Ball : MonoBehaviour {
 			//Get the Pear
 			GameObject ballPear = GameObject.Find("Pear");	
 			//Swap Mesh
-			Mesh initialMesh;
 			Mesh swapMesh;
-			initialMesh = gameObject.GetComponent<MeshFilter>().mesh;
 			swapMesh = ballPear.GetComponent<MeshFilter>().mesh;
 			gameObject.GetComponent<MeshFilter>().mesh = swapMesh;
 			//Swap Texture
@@ -56,10 +54,7 @@ public class Ball : MonoBehaviour {
 					GameObject ballPear = GameObject.Find("Pear");
 
 					//Swap Mesh
-					Mesh initialMesh;
-					Mesh swapMesh;
-					initialMesh = gameObject.GetComponent<MeshFilter>().mesh;
-					swapMesh = ballPear.GetComponent<MeshFilter>().mesh;
+					Mesh swapMesh = ballPear.GetComponent<MeshFilter>().mesh;
 					gameObject.GetComponent<MeshFilter>().mesh = swapMesh;
 					//Swap Texture
 					Texture swapTexture;
@@ -73,10 +68,7 @@ public class Ball : MonoBehaviour {
 				else if (collision.gameObject.name == "Player 2"){
 					GameObject ballGrapes = GameObject.Find("Grapes");
 					//Swap Mesh
-					Mesh initialMesh;
-					Mesh swapMesh;
-					initialMesh = gameObject.GetComponent<MeshFilter>().mesh;
-					swapMesh = ballGrapes.GetComponent<MeshFilter>().mesh;
+					Mesh swapMesh = ballGrapes.GetComponent<MeshFilter>().mesh;
 					gameObject.GetComponent<MeshFilter>().mesh = swapMesh;
 					//Swap Texture
 					Texture swapTexture;
@@ -88,10 +80,7 @@ public class Ball : MonoBehaviour {
 				else if (collision.gameObject.name == "Player 3"){
 					GameObject ballApple = GameObject.Find("Apple");
 					//Swap Mesh
-					Mesh initialMesh;
-					Mesh swapMesh;
-					initialMesh = gameObject.GetComponent<MeshFilter>().mesh;
-					swapMesh = ballApple.GetComponent<MeshFilter>().mesh;
+					Mesh swapMesh = ballApple.GetComponent<MeshFilter>().mesh;
 					gameObject.GetComponent<MeshFilter>().mesh = swapMesh;
 					//Swap Texture
 					Texture swapTexture;
@@ -103,10 +92,7 @@ public class Ball : MonoBehaviour {
 				else if (collision.gameObject.name == "Player 4"){
 					GameObject ballWatermelon = GameObject.Find("Watermelon");
 					//Swap Mesh
-					Mesh initialMesh;
-					Mesh swapMesh;
-					initialMesh = gameObject.GetComponent<MeshFilter>().mesh;
-					swapMesh = ballWatermelon.GetComponent<MeshFilter>().mesh;
+					Mesh swapMesh = ballWatermelon.GetComponent<MeshFilter>().mesh;
 					gameObject.GetComponent<MeshFilter>().mesh = swapMesh;
 					//Swap Texture
 					Texture swapTexture;
@@ -130,7 +116,7 @@ public class Ball : MonoBehaviour {
 
 						Vector3 splatPosition = new Vector3(surfaceHit.point.x, 0, surfaceHit.point.z);
 						GameObject generatedSplat = (GameObject)Instantiate(splat, splatPosition, Quaternion.identity);
-						generatedSplat.GetComponent<Splat>().active = true;
+						generatedSplat.GetComponent<Splat>().animate = true;
 						generatedSplats.Add(generatedSplat);
 
 						lastBumpedCollider = collision.collider;
