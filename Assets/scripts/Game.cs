@@ -54,8 +54,10 @@ public class Game : MonoBehaviour {
 			Start();
 		}
 		if (!Game.started) {
+
 			if (Input.GetKeyDown(toggle1)) {
 				mode = GameMode.FruitChange;
+				GameObject.Find("Ball");
 			}
 			else if (Input.GetKeyDown(toggle2)) {
 				mode = GameMode.Teams;

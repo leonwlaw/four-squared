@@ -23,7 +23,11 @@ public class Ball : MonoBehaviour {
 
 	List<GameObject> generatedSplats = new List<GameObject>();
 
-
+	string PLAYER_1 = "Player 1";
+	string PLAYER_2 = "Player 2";
+	string PLAYER_3 = "Player 3";
+	string PLAYER_4 = "Player 4";
+	
 	// Use this for initialization
 	void Start () {
 		Initialize();
@@ -62,46 +66,30 @@ public class Ball : MonoBehaviour {
 			audio.Play ();
 		}
 
-		string PLAYER_1 = "Player 1";
-		string PLAYER_2 = "Player 2";
-		string PLAYER_3 = "Player 3";
-		string PLAYER_4 = "Player 4";
-
 		string[] playernames = {PLAYER_1, PLAYER_2, PLAYER_3, PLAYER_4};
 		foreach (string name in playernames) {
 			if (name == collision.gameObject.name) {
 				lastPlayerHit = collision.gameObject;
 				lastPlayerHit.GetComponent<PlayerControl>().field.GetComponent<Floor>().scoreDisplay.gameObject.GetComponent<Points>().score++;
 
-				//Get the Pear
-				GameObject ball =
-					(name == PLAYER_1) ? GameObject.Find("Pear"):
-					(name == PLAYER_2) ? GameObject.Find("Grapes"):
-					(name == PLAYER_3) ? GameObject.Find("Apple"):
-						GameObject.Find("Watermelon");
-
 				audio.clip =
 					(name == PLAYER_1) ? pearSound:
-					(name == PLAYER_2) ? grapeSound:
-					(name == PLAYER_3) ? appleSound:
+					(name == PLAYER_2) ? appleSound:
+					(name == PLAYER_3) ? grapeSound:
 						watermelonSound;
 
 				audio.Play();
-
-				//Swap Mesh
-				Mesh swapMesh;
-				swapMesh = ball.GetComponent<MeshFilter>().mesh;
-				gameObject.GetComponent<MeshFilter>().mesh = swapMesh;
-				//Swap Texture
-				Texture swapTexture;
-				swapTexture = ball.renderer.material.mainTexture;
-				gameObject.renderer.material.mainTexture = swapTexture;
 			}
 		}
 
 		if (!(Game.started)) {
-
-			if (Game.mode == Game.GameMode.Splats) {
+			if (Game.mode == Game.GameMode.Basic) {
+				SwapBaseFruit();
+			}
+			else if (Game.mode == Game.GameMode.FruitChange) {
+				SwapFruit();
+			}
+			else if (Game.mode == Game.GameMode.Splats) {
 				if (IsColliderPlayer(collision.collider)) {
 					// Since multiple collisions can occur to the same
 					// object multiple times in quick succession, make sure
@@ -149,9 +137,43 @@ public class Ball : MonoBehaviour {
 		}
 		return true;
 	}
+
+	public void SwapBaseFruit() {
+		//Get Base Fruits (MODE 0)
+		GameObject ball =
+			(lastPlayerHit.name == PLAYER_1) ? GameObject.Find("orangeball"):
+				(lastPlayerHit.name == PLAYER_2) ? GameObject.Find("plumball"):
+				(lastPlayerHit.name == PLAYER_3) ? GameObject.Find("blueberryball"):
+				GameObject.Find("limeball");
 		
+		//Swap Mesh
+		Mesh swapMesh;
+		swapMesh = ball.GetComponent<MeshFilter>().mesh;
+		gameObject.GetComponent<MeshFilter>().mesh = swapMesh;
+		//Swap Texture
+		Texture swapTexture;
+		swapTexture = ball.renderer.material.mainTexture;
+		gameObject.renderer.material.mainTexture = swapTexture;
+	}
 
+	public void SwapFruit() {
+		//Get fruitChange (MODE 1)
+		GameObject ball =
+			(lastPlayerHit.name == PLAYER_1) ? GameObject.Find("Pear"):
+				(lastPlayerHit.name == PLAYER_2) ? GameObject.Find("Apple"):
+				(lastPlayerHit.name == PLAYER_3) ? GameObject.Find("Grapes"):
+				GameObject.Find("Watermelon");
 
+		//Swap Mesh
+		Mesh swapMesh;
+		swapMesh = ball.GetComponent<MeshFilter>().mesh;
+		gameObject.GetComponent<MeshFilter>().mesh = swapMesh;
+		//Swap Texture
+		Texture swapTexture;
+		swapTexture = ball.renderer.material.mainTexture;
+		gameObject.renderer.material.mainTexture = swapTexture;
+	}
+	
 	public void Initialize() {
 		// Remove all splats from the screen
 		foreach (GameObject splat in generatedSplats) {
@@ -159,6 +181,7 @@ public class Ball : MonoBehaviour {
 		}
 		generatedSplats.Clear();
 		lastBumpedCollider = null;
+		lastPlayerHit = GameObject.Find ("Player 1");
 
 		Game.started = false;
 		renderer.material.color = Color.white;
