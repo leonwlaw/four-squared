@@ -18,6 +18,7 @@ public class Ball : MonoBehaviour {
 	Vector3 initialPosition = new Vector3(-5f, 3f, 2.5f);
 
 	public Collider[] fields;
+	public Collider[] players = new Collider[4];
 	public GameObject splat;
 	public Collider lastBumpedCollider;
 
@@ -26,6 +27,10 @@ public class Ball : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		GameObject[] playersObjects = GameObject.FindGameObjectsWithTag("Player");
+		for (int i = 0; i < playersObjects.Length; ++i) {
+			players[i] = playersObjects[i].collider;
+		}
 		Initialize();
 
 		pearSound = Resources.Load ("audio/Pear Thump", typeof(AudioClip)) as AudioClip;
@@ -142,12 +147,12 @@ public class Ball : MonoBehaviour {
 	}
 
 	bool IsColliderPlayer(Collider collider) {
-		foreach (Collider field in fields) {
-			if (field == collider) {
-				return false;
+		foreach (Collider player in players) {
+			if (player == collider) {
+				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 		
 
