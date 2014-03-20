@@ -7,11 +7,11 @@ public class Ball : MonoBehaviour {
 	//Last Player who hit the ball
 	public GameObject lastPlayerHit;
 
-	public static AudioClip sound1;
-	public static AudioClip sound2;
-	public static AudioClip sound3;
-	public static AudioClip sound4;
-	public static AudioClip sound5;
+	public static AudioClip pearSound;
+	public static AudioClip grapeSound;
+	public static AudioClip appleSound;
+	public static AudioClip watermelonSound;
+	public static AudioClip splatSound;
 
 	public AudioClip[] gameSounds;
 
@@ -23,54 +23,20 @@ public class Ball : MonoBehaviour {
 
 	List<GameObject> generatedSplats = new List<GameObject>();
 
-	//Pear Audio
-	void PearSound(){
-		//Save Audio Just In Case
-		//AudioClip temp = gameObject.GetComponent<AudioSource> ().clip;
-		audio.clip = sound1;
-		audio.Play ();
-	}
-
-	void AppleSound(){
-		//Save Audio Just In Case
-		//AudioClip temp = gameObject.GetComponent<AudioSource> ().clip;
-		audio.clip = sound3;
-		audio.Play ();
-	}
-
-	void SplatSound(){
-		//Save Audio Just In Case
-		//AudioClip temp = gameObject.GetComponent<AudioSource> ().clip;
-		audio.clip = sound5;
-		audio.Play ();
-	}
-
-	void GrapeSound(){
-		audio.clip = sound2;
-		audio.Play ();
-	}
-
-	void WatermelonSound(){
-		//Save Audio Just In Case
-		//AudioClip temp = gameObject.GetComponent<AudioSource> ().clip;
-		audio.clip = sound4;
-		//Debug.Log (sound1.name.ToString ());
-		audio.Play ();
-	}
 
 	// Use this for initialization
 	void Start () {
 		Initialize();
 
-		sound1 = Resources.Load ("audio/Pear Thump", typeof(AudioClip)) as AudioClip;
-		sound2 = Resources.Load ("audio/Grape Bunch Thump", typeof(AudioClip)) as AudioClip;
-		sound3 = Resources.Load ("audio/Apple Thump", typeof(AudioClip)) as AudioClip;
-		sound4 = Resources.Load ("audio/Watermelon Thump", typeof(AudioClip)) as AudioClip;
-		sound5 = Resources.Load ("audio/Fruit Splat", typeof(AudioClip)) as AudioClip;
+		pearSound = Resources.Load ("audio/Pear Thump", typeof(AudioClip)) as AudioClip;
+		grapeSound = Resources.Load ("audio/Grape Bunch Thump", typeof(AudioClip)) as AudioClip;
+		appleSound = Resources.Load ("audio/Apple Thump", typeof(AudioClip)) as AudioClip;
+		watermelonSound = Resources.Load ("audio/Watermelon Thump", typeof(AudioClip)) as AudioClip;
+		splatSound = Resources.Load ("audio/Fruit Splat", typeof(AudioClip)) as AudioClip;
 
 		lastPlayerHit = GameObject.Find ("Player 1");
 
-		Debug.Log (sound1.name);		
+		Debug.Log (pearSound.name);		
 
 	}
 
@@ -91,111 +57,49 @@ public class Ball : MonoBehaviour {
 
 	void OnCollisionEnter(Collision collision) {
 		// NEED AN IF STATMENT ON GAME MODE
-		SplatSound ();
+		if (Game.mode == Game.GameMode.Splats) {
+			audio.clip = splatSound;
+			audio.Play ();
+		}
 
-		string[] playernames = {"Player 1", "Player 2", "Player 3", "Player 4"};
+		string PLAYER_1 = "Player 1";
+		string PLAYER_2 = "Player 2";
+		string PLAYER_3 = "Player 3";
+		string PLAYER_4 = "Player 4";
+
+		string[] playernames = {PLAYER_1, PLAYER_2, PLAYER_3, PLAYER_4};
 		foreach (string name in playernames) {
 			if (name == collision.gameObject.name) {
 				lastPlayerHit = collision.gameObject;
 				lastPlayerHit.GetComponent<PlayerControl>().field.GetComponent<Floor>().scoreDisplay.gameObject.GetComponent<Points>().score++;
-				if ( collision.gameObject.name == "Player 1" || collision.gameObject.name == "Player 2" ){
-					//GameObject.Find("Player 1").GetComponent<PlayerControl>().field.GetComponent<Floor>().scoreDisplay.gameObject.GetComponent<TeamScore>().teamScore++;
-				}
-				if ( collision.gameObject.name == "Player 3" || collision.gameObject.name == "Player 4" ) {
-			//		GameObject.Find("Player 3").GetComponent<PlayerControl>().field.GetComponent<Floor>().scoreDisplay.gameObject.GetComponent<TeamScore>().teamScore++;
-				}
+
+				//Get the Pear
+				GameObject ball =
+					(name == PLAYER_1) ? GameObject.Find("Pear"):
+					(name == PLAYER_2) ? GameObject.Find("Grapes"):
+					(name == PLAYER_3) ? GameObject.Find("Apple"):
+						GameObject.Find("Watermelon");
+
+				audio.clip =
+					(name == PLAYER_1) ? pearSound:
+					(name == PLAYER_2) ? grapeSound:
+					(name == PLAYER_3) ? appleSound:
+						watermelonSound;
+
+				audio.Play();
+
+				//Swap Mesh
+				Mesh swapMesh;
+				swapMesh = ball.GetComponent<MeshFilter>().mesh;
+				gameObject.GetComponent<MeshFilter>().mesh = swapMesh;
+				//Swap Texture
+				Texture swapTexture;
+				swapTexture = ball.renderer.material.mainTexture;
+				gameObject.renderer.material.mainTexture = swapTexture;
 			}
 		}
-		
-		//Player 1 Initiated the Hit Change the Ball to a Pear
-		if (Game.mode == Game.GameMode.FruitChange && !(Game.started)) {
-			//Store Last Player Who Hit the Ball
-	
 
-			PearSound();
-			//Get the Pear
-			GameObject ballPear = GameObject.Find("Pear");	
-			//Swap Mesh
-			Mesh initialMesh;
-			Mesh swapMesh;
-			initialMesh = gameObject.GetComponent<MeshFilter>().mesh;
-			swapMesh = ballPear.GetComponent<MeshFilter>().mesh;
-			gameObject.GetComponent<MeshFilter>().mesh = swapMesh;
-			//Swap Texture
-			Texture swapTexture;
-			swapTexture = ballPear.renderer.material.mainTexture;
-			gameObject.renderer.material.mainTexture = swapTexture;
-		}
 		if (!(Game.started)) {
-			if (Game.mode == Game.GameMode.FruitChange){
-				//Player 1 Hit the Ball to Change to a Pear
-				if(collision.gameObject.name == "Player 1"){
-					//Get the Pear
-					GameObject ballPear = GameObject.Find("Pear");
-					PearSound();
-					//Swap Mesh
-					Mesh initialMesh;
-					Mesh swapMesh;
-					initialMesh = gameObject.GetComponent<MeshFilter>().mesh;
-					swapMesh = ballPear.GetComponent<MeshFilter>().mesh;
-					gameObject.GetComponent<MeshFilter>().mesh = swapMesh;
-					//Swap Texture
-					Texture swapTexture;
-					gameObject.transform.localScale = new Vector3(1,1,1);
-					swapTexture = ballPear.renderer.material.mainTexture;
-					gameObject.renderer.material.mainTexture = swapTexture;
-				}
-				//Player 2 Hit the Ball to Change to a Strawberry
-				else if (collision.gameObject.name == "Player 2"){
-					GameObject ballGrapes = GameObject.Find("Grapes");
-					GrapeSound();
-					//Swap Mesh
-					Mesh initialMesh;
-					Mesh swapMesh;
-					initialMesh = gameObject.GetComponent<MeshFilter>().mesh;
-					swapMesh = ballGrapes.GetComponent<MeshFilter>().mesh;
-					gameObject.GetComponent<MeshFilter>().mesh = swapMesh;
-					//Swap Texture
-					Texture swapTexture;
-					gameObject.transform.localScale = new Vector3(.8f,.8f,.8f);
-					swapTexture = ballGrapes.renderer.material.mainTexture;
-					gameObject.renderer.material.mainTexture = swapTexture;
-
-				}
-				//Player 3 Hit the Ball to Change to an Apple
-				else if (collision.gameObject.name == "Player 3"){
-					GameObject ballApple = GameObject.Find("Apple");
-					AppleSound();
-					//Swap Mesh
-					Mesh initialMesh;
-					Mesh swapMesh;
-					initialMesh = gameObject.GetComponent<MeshFilter>().mesh;
-					swapMesh = ballApple.GetComponent<MeshFilter>().mesh;
-					gameObject.GetComponent<MeshFilter>().mesh = swapMesh;
-					//Swap Texture
-					Texture swapTexture;
-					gameObject.transform.localScale = new Vector3(3,3,3);
-					swapTexture = ballApple.renderer.material.mainTexture;
-					gameObject.renderer.material.mainTexture = swapTexture;
-				}
-				//Player 4 Hit the Ball to Change to a Watermelon
-				else if (collision.gameObject.name == "Player 4"){
-					GameObject ballWatermelon = GameObject.Find("Watermelon");
-					WatermelonSound();
-					//Swap Mesh
-					Mesh initialMesh;
-					Mesh swapMesh;
-					initialMesh = gameObject.GetComponent<MeshFilter>().mesh;
-					swapMesh = ballWatermelon.GetComponent<MeshFilter>().mesh;
-					gameObject.GetComponent<MeshFilter>().mesh = swapMesh;
-					//Swap Texture
-					Texture swapTexture;
-					gameObject.transform.localScale = new Vector3(0.5f,0.5f,0.5f);
-
-					swapTexture = ballWatermelon.renderer.material.mainTexture;
-					gameObject.renderer.material.mainTexture = swapTexture;
-				}
-			}
 
 			if (Game.mode == Game.GameMode.Splats) {
 				if (IsColliderPlayer(collision.collider)) {
