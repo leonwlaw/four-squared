@@ -5,11 +5,11 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{A4CB291D-BF80-0A88-B188-D50850786F4F}</ProjectGuid>
+	<ProjectGuid>{869385E8-7A8E-A0F1-FB26-513A41C2B03E}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
-	<AssemblyName>Assembly-CSharp</AssemblyName>
+	<AssemblyName>Assembly-UnityScript</AssemblyName>
 	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
 	<FileAlignment>512</FileAlignment>
 	<BaseDirectory>Assets</BaseDirectory>
@@ -46,15 +46,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\scripts\Ball.cs" />
-     <Compile Include="Assets\scripts\Floor.cs" />
-     <Compile Include="Assets\scripts\Game.cs" />
-     <Compile Include="Assets\scripts\Pear.cs" />
-     <Compile Include="Assets\scripts\PlayerControl.cs" />
-     <Compile Include="Assets\scripts\Points.cs" />
-     <Compile Include="Assets\scripts\Score.cs" />
-     <Compile Include="Assets\scripts\Splat.cs" />
-     <Compile Include="Assets\scripts\menu_menu.cs" />
+     <Compile Include="Assets\scripts\Floor.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

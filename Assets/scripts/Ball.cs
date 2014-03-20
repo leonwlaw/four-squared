@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 public class Ball : MonoBehaviour {
 
+	//Last Player who hit the ball
+	public GameObject lastPlayerHit;
+
 	public static AudioClip sound1;
 	public static AudioClip sound2;
 	public static AudioClip sound3;
@@ -65,6 +68,8 @@ public class Ball : MonoBehaviour {
 		sound4 = Resources.Load ("audio/Watermelon Thump", typeof(AudioClip)) as AudioClip;
 		sound5 = Resources.Load ("audio/Fruit Splat", typeof(AudioClip)) as AudioClip;
 
+		lastPlayerHit = GameObject.Find ("Player 1");
+
 		Debug.Log (sound1.name);		
 
 	}
@@ -79,15 +84,28 @@ public class Ball : MonoBehaviour {
 				rigidbody.velocity.y * (1 - 0.8f * Time.deltaTime),
 				rigidbody.velocity.z);
 		}
-
+		if (Input.GetKey (KeyCode.Alpha0)) {
+			rigidbody.velocity = Vector3.zero;
+		}
 	}
 
 	void OnCollisionEnter(Collision collision) {
 		// NEED AN IF STATMENT ON GAME MODE
 		SplatSound ();
 
+		string[] playernames = {"Player 1", "Player 2", "Player 3", "Player 4"};
+		foreach (string name in playernames) {
+			if (name == collision.gameObject.name) {
+				lastPlayerHit = collision.gameObject;
+				lastPlayerHit.GetComponent<PlayerControl>().field.GetComponent<Floor>().scoreDisplay.gameObject.GetComponent<Points>().score++;
+			}
+		}
+		
 		//Player 1 Initiated the Hit Change the Ball to a Pear
 		if (Game.mode == Game.GameMode.FruitChange && !(Game.started)) {
+			//Store Last Player Who Hit the Ball
+	
+
 			PearSound();
 			//Get the Pear
 			GameObject ballPear = GameObject.Find("Pear");	
@@ -120,8 +138,6 @@ public class Ball : MonoBehaviour {
 					gameObject.transform.localScale = new Vector3(1,1,1);
 					swapTexture = ballPear.renderer.material.mainTexture;
 					gameObject.renderer.material.mainTexture = swapTexture;
-
-
 				}
 				//Player 2 Hit the Ball to Change to a Strawberry
 				else if (collision.gameObject.name == "Player 2"){
@@ -138,6 +154,7 @@ public class Ball : MonoBehaviour {
 					gameObject.transform.localScale = new Vector3(.8f,.8f,.8f);
 					swapTexture = ballGrapes.renderer.material.mainTexture;
 					gameObject.renderer.material.mainTexture = swapTexture;
+
 				}
 				//Player 3 Hit the Ball to Change to an Apple
 				else if (collision.gameObject.name == "Player 3"){
