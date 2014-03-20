@@ -2,10 +2,9 @@
 using System.Collections;
 
 public class Splat : MonoBehaviour {
-	// Controls activeing for this splat.
-	public bool active = false;
+	public bool animate = false;
 	float elapsedTime;
-	float activeSpeed = 0.1f;
+	float animateSpeed = 0.1f;
 	float riseTime = 0.5f;
 	float maxTime = 10f;
 
@@ -16,12 +15,12 @@ public class Splat : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if (active) {
+		if (animate) {
 			elapsedTime += Time.deltaTime;
 			if (elapsedTime < riseTime) {
-				transform.position += activeSpeed * Vector3.up * Time.deltaTime;
+				transform.position += animateSpeed * Vector3.up * Time.deltaTime;
 			} else if (elapsedTime > maxTime - riseTime) {
-				transform.position += activeSpeed * Vector3.down * Time.deltaTime;
+				transform.position += animateSpeed * Vector3.down * Time.deltaTime;
 			}
 			if (elapsedTime > maxTime) {
 				Destroy(gameObject);
