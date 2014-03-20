@@ -1,13 +1,23 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 
 public class PlayerControl : MonoBehaviour {
+
+	//Zone Restrictions
+	public float xLimit;
+	public float x2Limit;
+	public float zLimit;
+	public float z2Limit;
+
 	float speed = 150f;
 	float jumpPower = 15f;
-
+	float followHeightRadius = 2.0f;
 	const int floorsLayer = 1 << 8;
 
 	public GameObject field;
+
+	Transform ball;
 
 	// Keyboard input for the character
 	public KeyCode up;
@@ -18,11 +28,26 @@ public class PlayerControl : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
+		ball = GameObject.Find("Ball").transform;
 	}
 
 	// Update is called once per frame
 	void Update () {
+
+		/*
+		player 4: -10, 0, -10, 0
+		player 3: 0, 10,-10, 0
+		player 2: 0, 10, 0, 10
+		player 1: -10, 0, 0, 10
+		*/
+
+		Vector3 pos = transform.position;
+		pos.x = Mathf.Clamp(pos.x,xLimit,x2Limit);
+		pos.z = Mathf.Clamp (pos.z, zLimit, z2Limit);
+
+		transform.position = pos;
+
+
 		Vector3 forceTargetDirection = new Vector3();
 
 		if (Input.GetKey(up)) {
@@ -41,9 +66,21 @@ public class PlayerControl : MonoBehaviour {
 			forceTargetDirection += Vector3.right;
 		}
 
-		// if (Input.GetKeyDown(inputs[4])) {
-		// 	transform.Rotate(ROTATION_RESOLUTION * Vector3.up);
-		// }
+		Vector3 positionDifference = ball.transform.position - transform.position;
+
+		// Ignore differences in Y when figuring out how far the player
+		// is from the ball
+		Vector3 planarPositionDifference = new Vector3(positionDifference.x, 0, positionDifference.z);
+
+		// Cap value in [0, 1] so that the player's object does not go
+		// out of bounds.
+		float followFactor = (followHeightRadius + 1 - planarPositionDifference.magnitude) / followHeightRadius;
+		followFactor =
+			(followFactor > 1) ? 1:
+			(followFactor < 0) ? 0: followFactor;
+
+		Vector3 verticalDifference = new Vector3(0, positionDifference.y, 0);
+		transform.position += verticalDifference * followFactor;
 
 		// Orient the fist to face the direction we move in. angleToLeft
 		// is used to distinguish between clockwise and counterclockwise
