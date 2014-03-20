@@ -38,12 +38,13 @@ public class PlayerControl : MonoBehaviour {
 		player 1: -10, 0, 0, 10
 		*/
 
-		Vector3 pos = transform.position;
-		pos.x = Mathf.Clamp(pos.x,xLimit,x2Limit);
-		pos.z = Mathf.Clamp (pos.z, zLimit, z2Limit);
+		if (Game.mode == Game.GameMode.Boundaries) {
+			Vector3 pos = transform.position;
+			pos.x = Mathf.Clamp (pos.x, xLimit, x2Limit);
+			pos.z = Mathf.Clamp (pos.z, zLimit, z2Limit);
 
-		transform.position = pos;
-
+			transform.position = pos;
+		}
 
 		Vector3 forceTargetDirection = new Vector3();
 

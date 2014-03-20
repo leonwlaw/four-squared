@@ -16,8 +16,9 @@ public class Game : MonoBehaviour {
 	public enum GameMode {
 		Basic,
 		FruitChange,
-		ArmExtend,
+		Teams,
 		Splats,
+		Boundaries
 	};
 
 	// Use this for initialization
@@ -36,6 +37,14 @@ public class Game : MonoBehaviour {
 
 			player.renderer.material.color = Color.white;
 		}
+
+		/*
+		All Players: -10, 10, -10, 10
+		*/
+		//Disable Team Scores
+		GameObject.Find ("Team Score Bottom").gameObject.GetComponent<TextMesh> ().renderer.enabled = false;
+		GameObject.Find ("Team Score Top").gameObject.GetComponent<TextMesh> ().renderer.enabled = false;
+
 	}
 
 	// Update is called once per frame
@@ -49,12 +58,16 @@ public class Game : MonoBehaviour {
 				mode = GameMode.FruitChange;
 			}
 			else if (Input.GetKeyDown(toggle2)) {
-				mode = GameMode.ArmExtend;
+				mode = GameMode.Teams;
+				//Enable Team Scores
+				GameObject.Find ("Team Score Bottom").gameObject.GetComponent<TextMesh> ().renderer.enabled = true;
+				GameObject.Find ("Team Score Top").gameObject.GetComponent<TextMesh> ().renderer.enabled = true;
 			}
 			else if (Input.GetKeyDown(toggle3)) {
 				mode = GameMode.Splats;
 			}
 			else if (Input.GetKeyDown(toggle4)) {
+				mode = GameMode.Boundaries;
 			}
 		}
 	}
