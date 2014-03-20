@@ -98,6 +98,12 @@ public class Ball : MonoBehaviour {
 			if (name == collision.gameObject.name) {
 				lastPlayerHit = collision.gameObject;
 				lastPlayerHit.GetComponent<PlayerControl>().field.GetComponent<Floor>().scoreDisplay.gameObject.GetComponent<Points>().score++;
+				if ( collision.gameObject.name == "Player 1" || collision.gameObject.name == "Player 2" ){
+					//GameObject.Find("Player 1").GetComponent<PlayerControl>().field.GetComponent<Floor>().scoreDisplay.gameObject.GetComponent<TeamScore>().teamScore++;
+				}
+				if ( collision.gameObject.name == "Player 3" || collision.gameObject.name == "Player 4" ) {
+			//		GameObject.Find("Player 3").GetComponent<PlayerControl>().field.GetComponent<Floor>().scoreDisplay.gameObject.GetComponent<TeamScore>().teamScore++;
+				}
 			}
 		}
 		
