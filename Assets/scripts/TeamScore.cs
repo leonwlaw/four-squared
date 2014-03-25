@@ -13,6 +13,6 @@ public class TeamScore : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		int sum = player1.gameObject.GetComponent<Points> ().score + player2.gameObject.GetComponent<Points> ().score;
-		GetComponent<TextMesh>().text = "Team Score: " + sum;
+		GetComponent<TextMesh>().text = sum.ToString();
 	}
 }

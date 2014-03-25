@@ -19,7 +19,7 @@ public class Points : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 			
-			GetComponent<TextMesh>().text = "Score: " + score;
+			GetComponent<TextMesh>().text = score.ToString();
 
 	}
 }
