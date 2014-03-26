@@ -41,6 +41,11 @@ public class Game : MonoBehaviour {
 			player.renderer.material.color = Color.white;
 		}
 
+		foreach (GameObject scoreDisplay in GameObject.FindGameObjectsWithTag("scoredisplay")) {
+			scoreDisplay.GetComponent<Points>().score = 0;
+			Debug.Log("Resetting score");
+		}
+
 		/*
 		All Players: -10, 10, -10, 10
 		*/
