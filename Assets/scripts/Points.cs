@@ -3,11 +3,12 @@ using System.Collections;
 
 public class Points : MonoBehaviour {
 
-	public int score = 0;
+	public static int INITIAL_SCORE = 20;
+	public int score;
 
 	// Use this for initialization
-	void Start () {
-		score = 0;
+	public void Start () {
+		score = INITIAL_SCORE;
 	}
 
 	// Update is called once per frame

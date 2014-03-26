@@ -42,8 +42,7 @@ public class Game : MonoBehaviour {
 		}
 
 		foreach (GameObject scoreDisplay in GameObject.FindGameObjectsWithTag("scoredisplay")) {
-			scoreDisplay.GetComponent<Points>().score = 0;
-			Debug.Log("Resetting score");
+			scoreDisplay.GetComponent<Points>().Start();
 		}
 
 		/*
