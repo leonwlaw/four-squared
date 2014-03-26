@@ -12,6 +12,8 @@ public class Game : MonoBehaviour {
 	public KeyCode toggle3;
 	public KeyCode toggle4;
 
+	public static Material loserMaterial;
+
 	public enum GameMode {
 		Basic,
 		FruitChange,
