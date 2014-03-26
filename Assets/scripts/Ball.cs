@@ -74,6 +74,12 @@ public class Ball : MonoBehaviour {
 				Physics.Raycast(transform.position, Vector3.down, out surfaceHit, 100);
 				surfaceHit.collider.gameObject.GetComponent<Floor>().scoreDisplay.GetComponent<Points>().score--;
 				timeSinceLastPenalty = 0;
+
+				int playerScore = surfaceHit.collider.gameObject.GetComponent<Floor>().scoreDisplay.GetComponent<Points>().score;
+				if (playerScore < 0) {
+					Win.loserMaterial = surfaceHit.collider.gameObject.renderer.material;
+					Application.LoadLevel("victory");
+				}
 			}
 		}
 	}
@@ -128,7 +134,7 @@ public class Ball : MonoBehaviour {
 				}
 					
 			} 
-			
+
 			Game.started = IsColliderPlayer(collision.collider);
 			Debug.Log(Game.started);
 		}
