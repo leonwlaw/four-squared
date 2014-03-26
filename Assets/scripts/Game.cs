@@ -3,7 +3,6 @@ using System.Collections;
 
 public class Game : MonoBehaviour {
 	public GameObject ball;
-	public GameObject[] players;
 	public static bool started = false;
 	public static GameMode mode = GameMode.Basic;
 
@@ -21,11 +20,15 @@ public class Game : MonoBehaviour {
 		Boundaries
 	};
 
+	GameObject[] players;
+
 	// Use this for initialization
 	void Start () {
 		mode = GameMode.Basic;
 		started = false;
 		ball.GetComponent<Ball>().Initialize();
+
+		players = GameObject.FindGameObjectsWithTag("Player");
 
 		foreach (GameObject player in players) {
 			Vector3 fieldTransform = player.GetComponent<PlayerControl>().field.transform.position;
@@ -36,6 +39,10 @@ public class Game : MonoBehaviour {
 				fieldTransform.z);
 
 			player.renderer.material.color = Color.white;
+		}
+
+		foreach (GameObject scoreDisplay in GameObject.FindGameObjectsWithTag("scoredisplay")) {
+			scoreDisplay.GetComponent<Points>().Start();
 		}
 
 		/*

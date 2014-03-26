@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class Ball : MonoBehaviour {
 
+	public static float PENALTY_PERIOD = 1.0f;
+
 	//Last Player who hit the ball
 	public GameObject lastPlayerHit;
 
@@ -28,6 +30,8 @@ public class Ball : MonoBehaviour {
 	string PLAYER_2 = "Player 2";
 	string PLAYER_3 = "Player 3";
 	string PLAYER_4 = "Player 4";
+
+	float timeSinceLastPenalty = 0;
 	
 	// Use this for initialization
 	void Start () {
@@ -45,7 +49,7 @@ public class Ball : MonoBehaviour {
 
 		lastPlayerHit = GameObject.Find ("Player 1");
 
-		Debug.Log (pearSound.name);		
+		timeSinceLastPenalty = 0;
 
 	}
 
@@ -62,6 +66,16 @@ public class Ball : MonoBehaviour {
 		if (Input.GetKey (KeyCode.Alpha0)) {
 			rigidbody.velocity = Vector3.zero;
 		}
+
+		if (Game.started) {
+			timeSinceLastPenalty += Time.deltaTime;
+			if (timeSinceLastPenalty > PENALTY_PERIOD) {
+				RaycastHit surfaceHit;
+				Physics.Raycast(transform.position, Vector3.down, out surfaceHit, 100);
+				surfaceHit.collider.gameObject.GetComponent<Floor>().scoreDisplay.GetComponent<Points>().score--;
+				timeSinceLastPenalty = 0;
+			}
+		}
 	}
 
 	void OnCollisionEnter(Collision collision) {
@@ -74,9 +88,6 @@ public class Ball : MonoBehaviour {
 		string[] playernames = {PLAYER_1, PLAYER_2, PLAYER_3, PLAYER_4};
 		foreach (string name in playernames) {
 			if (name == collision.gameObject.name) {
-				lastPlayerHit = collision.gameObject;
-				lastPlayerHit.GetComponent<PlayerControl>().field.GetComponent<Floor>().scoreDisplay.gameObject.GetComponent<Points>().score++;
-
 				audio.clip =
 					(name == PLAYER_1) ? pearSound:
 					(name == PLAYER_2) ? appleSound:
@@ -117,11 +128,9 @@ public class Ball : MonoBehaviour {
 				}
 					
 			} 
-				
-			else {
-				Game.started = IsColliderPlayer(collision.collider);
-
-			}
+			
+			Game.started = IsColliderPlayer(collision.collider);
+			Debug.Log(Game.started);
 		}
 	}
 
