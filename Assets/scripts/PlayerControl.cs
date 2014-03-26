@@ -29,11 +29,13 @@ public class PlayerControl : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		ball = GameObject.Find("Ball").transform;
+
+		// Make glove match color of initial tile
+		renderer.material = field.renderer.material;
 	}
 
 	// Update is called once per frame
 	void Update () {
-
 		/*
 		player 4: -10, 0, -10, 0
 		player 3: 0, 10,-10, 0
