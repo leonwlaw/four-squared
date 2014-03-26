@@ -12,6 +12,8 @@ public class Game : MonoBehaviour {
 	public KeyCode toggle3;
 	public KeyCode toggle4;
 
+	public static Material loserMaterial;
+
 	public enum GameMode {
 		Basic,
 		FruitChange,
@@ -39,6 +41,10 @@ public class Game : MonoBehaviour {
 				fieldTransform.z);
 
 			player.renderer.material.color = Color.white;
+		}
+
+		foreach (GameObject scoreDisplay in GameObject.FindGameObjectsWithTag("scoredisplay")) {
+			scoreDisplay.GetComponent<Points>().Start();
 		}
 
 		/*
