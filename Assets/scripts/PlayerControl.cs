@@ -30,8 +30,13 @@ public class PlayerControl : MonoBehaviour {
 	void Start () {
 		ball = GameObject.Find("Ball").transform;
 
-		// Make glove match color of initial tile
-		renderer.material = field.renderer.material;
+		// Make glove match color of initial tile.  The materials array
+		// has to be updated as a whole, updating the items individually
+		// does nothing.
+		// See: http://forum.unity3d.com/threads/59150?p=404121&viewfull=1#post404121
+		Material[] materials = renderer.materials;
+		materials[0] = field.renderer.material;
+		renderer.materials = materials;
 	}
 
 	// Update is called once per frame
