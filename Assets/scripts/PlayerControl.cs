@@ -26,21 +26,27 @@ public class PlayerControl : MonoBehaviour {
 	public KeyCode right;
 	public KeyCode jump;
 
+	bool materialsInitialized;
+
 	// Use this for initialization
 	void Start () {
 		ball = GameObject.Find("Ball").transform;
-
-		// Make glove match color of initial tile.  The materials array
-		// has to be updated as a whole, updating the items individually
-		// does nothing.
-		// See: http://forum.unity3d.com/threads/59150?p=404121&viewfull=1#post404121
-		Material[] materials = renderer.materials;
-		materials[0] = field.renderer.material;
-		renderer.materials = materials;
+		materialsInitialized = false;
 	}
 
 	// Update is called once per frame
 	void Update () {
+		// Make glove match color of initial tile.  The materials array
+		// has to be updated as a whole, updating the items individually
+		// does nothing.
+		// See: http://forum.unity3d.com/threads/59150?p=404121&viewfull=1#post404121
+		// Ideally this should be called in Start(), but materials are
+		// not initialized by the time Start() is called...
+		if (!materialsInitialized) {
+			Material[] materials = renderer.materials;
+			materials[0] = field.renderer.material;
+			renderer.materials = materials;
+		}
 		/*
 		player 4: -10, 0, -10, 0
 		player 3: 0, 10,-10, 0
